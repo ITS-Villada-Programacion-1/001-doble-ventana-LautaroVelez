@@ -9,9 +9,10 @@ class Resultado(QMainWindow):
         super(Resultado, self).__init__()
         self.ui = Ui_Resultado()
         self.ui.setupUi(self)
+
     @Slot()
     def cerrar(self):
-        self.close() # cierro la ventana abierta. Este self no es el mismo que esta adentro de la clase Principal
+        self.close()
 
 class Principal(QMainWindow):
     def __init__(self):
@@ -21,15 +22,16 @@ class Principal(QMainWindow):
 
     @Slot()
     def buscar(self):
-        self.nombre = self.ui.lblNombre.text() #leo la caja de texto de la ventanita
-        self.user = os.popen("whoami").read() #saco el usuario de mi computadora
-        self.user = self.user.rsplit() #saco el salto de carro
-        self.ruta = "/home/"+self.user[0] #armo la ruta de donde voy a ejecutar el comando
-        os.chdir(self.ruta) #configuro donde se va ejecutar el comando
-        self.resultado = os.popen("find -not -path '*/\.*' | grep '" + self.nombre + "'").read() #busco los archivos que coincidan con el
-        self.ventanita = Resultado() #estoy creando un objeto que es la ventana nueva
-        self.ventanita.ui.txtResultado.setText(self.resultado) #agrego texto a la caja de la segunda ventana
-        self.ventanita.show() #le estoy diciendo al objeto creado, mostrate
+        self.nombre=self.ui.lblNombre.text()
+        self.user= os.popen("whoami").read()
+        self.user= self.user.rsplit()
+        self.ruta= "/home/"+self.user[0]
+        os.chdir(self.ruta)
+        self.resultado= os.popen("find -not -path '*/\.*' | grep '" + self.nombre + "'").read()
+        print(self.resultado)
+        self.ventanita = Resultado()
+        self.ventanita.ui.txtResultado.setText(self.resultado)
+        self.ventanita.show()
 
     @Slot()
     def borrar(self):
